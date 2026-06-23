@@ -1,117 +1,230 @@
-// Dynamic greeting
+// ── Global state ──────────────────────────────────────
+var todos = [];
+
+// ── Greeting ──────────────────────────────────────────
 function setGreeting() {
-    const hour = new Date().getHours();
-    let greeting = '';
-    if (hour >= 5 && hour < 12) greeting = 'Good morning, Bhumi ☀️';
-    else if (hour >= 12 && hour < 17) greeting = 'Good afternoon, Bhumi 🌤️';
-    else if (hour >= 17 && hour < 21) greeting = 'Good evening, Bhumi 🌙';
-    else greeting = 'Hey night owl, Bhumi 🦉';
-    document.getElementById('greeting').textContent = greeting;
+  const hour = new Date().getHours();
+  let greeting = '';
+  if (hour >= 5 && hour < 12) greeting = 'Good morning, Bhumi ☀️';
+  else if (hour >= 12 && hour < 17) greeting = 'Good afternoon, Bhumi 🌤️';
+  else if (hour >= 17 && hour < 21) greeting = 'Good evening, Bhumi 🌙';
+  else greeting = 'Hey night owl, Bhumi 🦉';
+  document.getElementById('greeting').textContent = greeting;
+}
+
+// ── Date ──────────────────────────────────────────────
+function setDate() {
+  const date = new Date();
+  const options = { weekday:'long', day:'numeric', month:'long', year:'numeric' };
+  document.getElementById('date').textContent = date.toLocaleDateString('en-IN', options);
+}
+
+// ── Prompt ────────────────────────────────────────────
+function setPrompt() {
+  const hour = new Date().getHours();
+  let prompt = '';
+  if (hour >= 5 && hour < 12) prompt = '"What\'s one small thing you\'re looking forward to today?"';
+  else if (hour >= 12 && hour < 17) prompt = '"How is your day going so far? Any surprises?"';
+  else if (hour >= 17 && hour < 21) prompt = '"What was the best moment of your day today?"';
+  else prompt = '"What\'s on your mind before you sleep tonight?"';
+  document.getElementById('prompt').textContent = prompt;
+}
+
+// ── Todos ─────────────────────────────────────────────
+function renderTodos() {
+  var list = document.getElementById('todo-list');
+  var count = document.getElementById('todo-count');
+  if (!list || !count) return;
+  var done = todos.filter(function(t) { return t.done; }).length;
+  count.textContent = done + '/' + todos.length;
+  count.style.color = (done === todos.length && todos.length > 0) ? '#1D9E75' : '#7F77DD';
+  if (todos.length === 0) { list.innerHTML = ''; return; }
+  list.innerHTML = todos.map(function(todo) {
+    return '<div class="todo-item">' +
+      '<div class="todo-checkbox ' + (todo.done ? 'checked' : '') + '" onclick="toggleTodo(\'' + todo.id + '\')">' +
+      (todo.done ? '✓' : '') +
+      '</div>' +
+      '<span class="todo-text ' + (todo.done ? 'done' : '') + '">' + todo.text + '</span>' +
+      '<button class="todo-delete" onclick="deleteTodo(\'' + todo.id + '\')">×</button>' +
+      '</div>';
+  }).join('');
+}
+
+function addTodo(text) {
+  todos.push({ id: String(Date.now()), text: text, done: false });
+  renderTodos();
+}
+
+function toggleTodo(id) {
+  for (var i = 0; i < todos.length; i++) {
+    if (todos[i].id === id) { todos[i].done = !todos[i].done; break; }
   }
-  
-  // Dynamic date
-  function setDate() {
-    const date = new Date();
-    const options = { weekday:'long', day:'numeric', month:'long', year:'numeric' };
-    document.getElementById('date').textContent = date.toLocaleDateString('en-IN', options);
+  renderTodos();
+}
+
+function deleteTodo(id) {
+  todos = todos.filter(function(t) { return t.id !== id; });
+  renderTodos();
+}
+
+// ── Entries ───────────────────────────────────────────
+function loadEntries() {
+    var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+  var list = document.getElementById('entries-list');
+  if (entries.length === 0) {
+    list.innerHTML = '<p class="no-entries">No entries yet — write your first one! 🌱</p>';
+    return;
   }
-  
-  // Time based prompts
-  function setPrompt() {
-    const hour = new Date().getHours();
-    let prompt = '';
-    if (hour >= 5 && hour < 12) {
-      prompt = '"What\'s one small thing you\'re looking forward to today?"';
-    } else if (hour >= 12 && hour < 17) {
-      prompt = '"How is your day going so far? Any surprises?"';
-    } else if (hour >= 17 && hour < 21) {
-      prompt = '"What was the best moment of your day today?"';
-    } else {
-      prompt = '"What\'s on your mind before you sleep tonight?"';
-    }
-    document.getElementById('prompt').textContent = prompt;
-  }
-  
-  // Load and display entries
-  function loadEntries() {
-    const entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
-    const list = document.getElementById('entries-list');
-  
-    if (entries.length === 0) {
-      list.innerHTML = '<p class="no-entries">No entries yet — write your first one! 🌱</p>';
-      return;
-    }
-  
-    list.innerHTML = entries.map(entry => {
-      const date = new Date(entry.date);
-      const dateStr = date.toLocaleDateString('en-IN', {
-        weekday: 'short', day: 'numeric', month: 'short',
-        hour: '2-digit', minute: '2-digit'
-      });
-      return `
-        <div class="entry-card">
-          <div class="entry-mood">${entry.mood}</div>
-          <div class="entry-content">
-            <div class="entry-date">${dateStr}</div>
-            <div class="entry-text">${entry.text}</div>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-  
-  // Mood selection
-  const moodCircles = document.querySelectorAll('.mood-circle');
-  moodCircles.forEach(circle => {
-    circle.addEventListener('click', () => {
-      moodCircles.forEach(c => c.classList.remove('active'));
-      circle.classList.add('active');
-    });
-  });
-  
-  // Save entry
-  const saveBtn = document.querySelector('.save-btn');
-  const writeArea = document.querySelector('.write-area');
-  
-  saveBtn.addEventListener('click', () => {
-    const activeMood = document.querySelector('.mood-circle.active');
-    const mood = activeMood ? activeMood.textContent : '😊';
-    const text = writeArea.value.trim();
-  
-    if (!text) {
-      alert('Write something first! Even one word counts 🙂');
-      return;
-    }
-  
-    const entry = {
-      id: Date.now(),
-      date: new Date().toISOString(),
-      mood: mood,
-      text: text,
-      type: 'write'
-    };
-  
-    const entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
-    entries.unshift(entry);
-    localStorage.setItem('huelog-entries', JSON.stringify(entries));
-  
-    writeArea.value = '';
-    moodCircles.forEach(c => c.classList.remove('active'));
-  
-    // ✅ Refresh list immediately
-    loadEntries();
-  
-    // Success feedback
-    saveBtn.textContent = '✅ Saved!';
-    saveBtn.style.background = '#1D9E75';
-    setTimeout(() => {
-      saveBtn.textContent = 'Save today\'s entry';
-      saveBtn.style.background = '#7F77DD';
-    }, 2000);
-  });
-  
-  // Init
-  setGreeting();
-  setDate();
-  setPrompt();
+    list.innerHTML = entries.map(function(entry) {
+        var date = new Date(entry.date);
+        var dateStr = date.toLocaleDateString('en-IN', {
+          weekday: 'short', day: 'numeric', month: 'short',
+          hour: '2-digit', minute: '2-digit'
+        });
+      
+        var todosHTML = '';
+        if (entry.todos && entry.todos.length > 0) {
+          todosHTML = '<div class="entry-todos">' +
+            entry.todos.map(function(t) {
+              return '<div class="entry-todo-item">' +
+                '<span class="entry-todo-check">' + (t.done ? '✅' : '⬜') + '</span>' +
+                '<span class="' + (t.done ? 'entry-todo-done' : '') + '">' + t.text + '</span>' +
+                '</div>';
+            }).join('') +
+          '</div>';
+        }
+      
+        return '<div class="entry-card" id="entry-' + entry.id + '">' +
+          '<div class="entry-mood">' + entry.mood + '</div>' +
+          '<div class="entry-content">' +
+          '<div class="entry-date">' + dateStr + '</div>' +
+          '<div class="entry-text" id="text-' + entry.id + '">' + entry.text + '</div>' +
+          todosHTML +
+          '</div>' +
+          '<div class="entry-actions">' +
+          '<button class="edit-btn" onclick="editEntry(' + entry.id + ')">✏️</button>' +
+          '<button class="delete-btn" onclick="deleteEntry(' + entry.id + ')">🗑️</button>' +
+          '</div>' +
+          '</div>';
+      }).join('');
+}
+
+function deleteEntry(id) {
+  var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+  var updated = entries.filter(function(e) { return e.id !== id; });
+  localStorage.setItem('huelog-entries', JSON.stringify(updated));
   loadEntries();
+}
+
+function editEntry(id) {
+    var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+    var entry = entries.find(function(e) { return e.id === id; });
+    if (!entry) return;
+    var textEl = document.getElementById('text-' + id);
+  
+    var todosEditHTML = '';
+    if (entry.todos && entry.todos.length > 0) {
+      todosEditHTML = '<div class="entry-todos edit-todos">' +
+        entry.todos.map(function(t, i) {
+          return '<div class="entry-todo-item">' +
+            '<div class="todo-checkbox ' + (t.done ? 'checked' : '') + '" onclick="toggleSavedTodo(' + id + ',' + i + ')">' +
+            (t.done ? '✓' : '') +
+            '</div>' +
+            '<span class="' + (t.done ? 'entry-todo-done' : '') + '">' + t.text + '</span>' +
+            '</div>';
+        }).join('') +
+      '</div>';
+    }
+  
+    textEl.innerHTML = '<textarea class="edit-area" id="edit-' + id + '">' + entry.text + '</textarea>' +
+      todosEditHTML +
+      '<div class="edit-actions">' +
+      '<button class="save-edit-btn" onclick="saveEdit(' + id + ')">Save</button>' +
+      '<button class="cancel-edit-btn" onclick="loadEntries()">Cancel</button>' +
+      '</div>';
+  
+    document.getElementById('edit-' + id).focus();
+  }
+
+function saveEdit(id) {
+  var newText = document.getElementById('edit-' + id).value.trim();
+  if (!newText) return;
+  var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+  var index = entries.findIndex(function(e) { return e.id === id; });
+  entries[index].text = newText;
+  entries[index].edited = true;
+  localStorage.setItem('huelog-entries', JSON.stringify(entries));
+  loadEntries();
+}
+
+// ── Mood selection ────────────────────────────────────
+var moodCircles = document.querySelectorAll('.mood-circle');
+moodCircles.forEach(function(circle) {
+  circle.addEventListener('click', function() {
+    moodCircles.forEach(function(c) { c.classList.remove('active'); });
+    circle.classList.add('active');
+  });
+});
+
+// ── Todo input ────────────────────────────────────────
+var todoInput = document.getElementById('todo-input');
+todoInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    var text = todoInput.value.trim();
+    if (!text) return;
+    addTodo(text);
+    todoInput.value = '';
+  }
+});
+
+// ── Save entry ────────────────────────────────────────
+var saveBtn = document.querySelector('.save-btn');
+var writeArea = document.querySelector('.write-area');
+
+saveBtn.addEventListener('click', function() {
+  var activeMood = document.querySelector('.mood-circle.active');
+  var mood = activeMood ? activeMood.textContent : '😊';
+  var text = writeArea.value.trim();
+  if (!text) { alert('Write something first! Even one word counts 🙂'); return; }
+
+  var entry = {
+    id: Date.now(),
+    date: new Date().toISOString(),
+    mood: mood,
+    text: text,
+    todos: todos.slice(),
+    type: 'write'
+  };
+
+  var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+  entries.unshift(entry);
+  localStorage.setItem('huelog-entries', JSON.stringify(entries));
+
+  writeArea.value = '';
+  moodCircles.forEach(function(c) { c.classList.remove('active'); });
+  todos = [];
+  renderTodos();
+  loadEntries();
+
+  saveBtn.textContent = '✅ Saved!';
+  saveBtn.style.background = '#1D9E75';
+  setTimeout(function() {
+    saveBtn.textContent = 'Save today\'s entry';
+    saveBtn.style.background = '#7F77DD';
+  }, 2000);
+});
+function toggleSavedTodo(entryId, todoIndex) {
+    var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+    var entryIndex = entries.findIndex(function(e) { return e.id === entryId; });
+    if (entryIndex === -1) return;
+    entries[entryIndex].todos[todoIndex].done = !entries[entryIndex].todos[todoIndex].done;
+    localStorage.setItem('huelog-entries', JSON.stringify(entries));
+    editEntry(entryId);
+}
+
+// ── Init ──────────────────────────────────────────────
+setGreeting();
+setDate();
+setPrompt();
+loadEntries();
+renderTodos();

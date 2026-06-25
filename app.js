@@ -182,37 +182,82 @@ var saveBtn = document.querySelector('.save-btn');
 var writeArea = document.querySelector('.write-area');
 
 saveBtn.addEventListener('click', function() {
-  var activeMood = document.querySelector('.mood-circle.active');
-  var mood = activeMood ? activeMood.textContent : '😊';
-  var text = writeArea.value.trim();
-  if (!text) { alert('Write something first! Even one word counts 🙂'); return; }
-
-  var entry = {
-    id: Date.now(),
-    date: new Date().toISOString(),
-    mood: mood,
-    text: text,
-    todos: todos.slice(),
-    type: 'write'
-  };
-
-  var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
-  entries.unshift(entry);
-  localStorage.setItem('huelog-entries', JSON.stringify(entries));
-
-  writeArea.value = '';
-  moodCircles.forEach(function(c) { c.classList.remove('active'); });
-  todos = [];
-  renderTodos();
-  loadEntries();
-
-  saveBtn.textContent = '✅ Saved!';
-  saveBtn.style.background = '#1D9E75';
-  setTimeout(function() {
-    saveBtn.textContent = 'Save today\'s entry';
-    saveBtn.style.background = '#7F77DD';
-  }, 2000);
+    var activeMood = document.querySelector('.mood-circle.active');
+    var mood = activeMood ? activeMood.textContent : '😊';
+    var text = writeArea.value.trim();
+  
+    if (!text) {
+      alert('Write something first! Even one word counts 🙂');
+      return;
+    }
+  
+    var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+  
+    // Check if entry exists for today
+    var todayStr = new Date().toISOString().split('T')[0];
+    var todayIndex = entries.findIndex(function(e) {
+      return e.date.split('T')[0] === todayStr;
+    });
+  
+    if (todayIndex !== -1) {
+      // UPDATE today's existing entry
+      entries[todayIndex].text = text;
+      entries[todayIndex].mood = mood;
+      entries[todayIndex].todos = window.todos.slice();
+      entries[todayIndex].updatedAt = new Date().toISOString();
+      showToast('✏️ Today\'s entry updated! Check History tab 🙂');
+    } else {
+      // CREATE new entry for today
+      var entry = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        mood: mood,
+        text: text,
+        todos: window.todos.slice(),
+        type: 'write'
+      };
+      entries.unshift(entry);
+      showToast('✅ Entry saved! Check History tab to see it 🎉');
+    }
+  
+    localStorage.setItem('huelog-entries', JSON.stringify(entries));
+  
+    writeArea.value = '';
+    moodCircles.forEach(function(c) { c.classList.remove('active'); });
+    window.todos = [];
+    renderTodos();
+    loadEntries();
+  
+    saveBtn.textContent = '✅ Saved!';
+    saveBtn.style.background = '#1D9E75';
+    setTimeout(function() {
+      saveBtn.textContent = 'Save today\'s entry';
+      saveBtn.style.background = '#7F77DD';
+    }, 2000);
 });
+// Check if today already has entry and update button
+function checkTodayEntry() {
+    var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+    var todayStr = new Date().toISOString().split('T')[0];
+    var todayEntry = entries.find(function(e) {
+      return e.date.split('T')[0] === todayStr;
+    });
+  
+    if (todayEntry) {
+      saveBtn.textContent = 'Update today\'s entry';
+      // Pre-fill with existing content
+      writeArea.value = todayEntry.text;
+      // Pre-select mood
+      moodCircles.forEach(function(c) {
+        if (c.textContent === todayEntry.mood) {
+          c.classList.add('active');
+        }
+      });
+      // Pre-fill todos
+      window.todos = todayEntry.todos || [];
+      renderTodos();
+    }
+  }
 function toggleSavedTodo(entryId, todoIndex) {
     var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
     var entryIndex = entries.findIndex(function(e) { return e.id === entryId; });
@@ -246,8 +291,10 @@ function switchMode(mode, navIndex) {
   historySection.style.display = mode === 'history' ? 'block' : 'none';
 
   // Load entries when switching to history
-  if (mode === 'history') loadEntries();
-}
+  if (mode === 'history') {
+    loadEntries();
+    showStreak(); 
+  }}
 
 // Mode toggle buttons
 modeBtns.forEach(function(btn, index) {
@@ -261,9 +308,61 @@ modeBtns.forEach(function(btn, index) {
 function switchToColour() {
   switchMode('colour', 1);
 }
+
+// Streak counter
+function calculateStreak() {
+    var entries = JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+    
+    if (entries.length === 0) return 0;
+  
+    // Get unique dates only (YYYY-MM-DD format)
+    var dates = entries.map(function(e) {
+      return e.date.split('T')[0];
+    });
+    var uniqueDates = [...new Set(dates)].sort().reverse();
+    // ['2026-06-25', '2026-06-24', '2026-06-23', ...]
+  
+    // Check consecutive days from today
+    var streak = 0;
+    var today = new Date();
+  
+    for (var i = 0; i < uniqueDates.length; i++) {
+      var expected = new Date(today);
+      expected.setDate(today.getDate() - i);
+      var expectedStr = expected.toISOString().split('T')[0];
+  
+      if (uniqueDates[i] === expectedStr) {
+        streak++;
+      } else {
+        break; // streak broken!
+      }
+    }
+  
+    return streak;
+  }
+  
+  // Display streak
+  function showStreak() {
+    var streak = calculateStreak();
+    var streakEl = document.getElementById('streak-count');
+    if (streakEl) {
+      streakEl.textContent = streak;
+    }
+  }
+  // Toast notification
+function showToast(message) {
+    var toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 2500);
+  }
 // ── Init ──────────────────────────────────────────────
 setGreeting();
 setDate();
 setPrompt();
 loadEntries();
 renderTodos();
+showStreak();
+checkTodayEntry(); 

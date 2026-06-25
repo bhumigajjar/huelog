@@ -512,3 +512,68 @@
     font-size: 13px;
     color: #B4A89A;
   }
+  /* Streak box */
+.streak-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #FAEEDA;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+  }
+  
+  .streak-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .streak-flame {
+    font-size: 28px;
+  }
+  
+  .streak-count {
+    font-size: 36px;
+    font-weight: 500;
+    color: #D85A30;
+  }
+  
+  .streak-right {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .streak-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #633806;
+  }
+  
+  .streak-sub {
+    font-size: 11px;
+    color: #B4A89A;
+  }
+  /* Toast notification */
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #2C2A26;
+    color: #FDFCFA;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: all .3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 999;
+  }
+  
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }

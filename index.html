@@ -102,8 +102,20 @@
 
     <!-- HISTORY SECTION -->
     <div id="history-section" style="display:none">
-      <h3 class="history-title">Your entries</h3>
-      <div id="entries-list"></div>
+       <!-- Streak -->
+        <div class="streak-box">
+            <div class="streak-left">
+            <span class="streak-flame">🔥</span>
+            <span class="streak-count" id="streak-count">0</span>
+            </div>
+            <div class="streak-right">
+            <p class="streak-label">day streak</p>
+            <p class="streak-sub">keep it going!</p>
+            </div>
+        </div>
+
+        <h3 class="history-title">Your entries</h3>
+        <div id="entries-list"></div>
     </div>
 
     <!-- Bottom Nav -->
@@ -113,7 +125,8 @@
         <div class="nav-item" onclick="switchMode('history', 2)">🔥</div>
         <div class="nav-item" onclick="switchMode('profile', 3)">👤</div>
       </nav>
-
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
   </div>
   <script src="app.js"></script>
 </body>

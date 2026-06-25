@@ -66,8 +66,7 @@
           <span class="todo-count" id="todo-count">0/0</span>
         </div>
         <div class="todo-input-row">
-          <input type="text" class="todo-input" id="todo-input" placeholder="Add a todo and press Enter..."/>
-          <button class="todo-add-btn" onclick="addTodoFromInput()">+</button>
+          <input type="text" class="todo-input" id="todo-input" placeholder="Add a todo and press Enter...">
         </div>
         <div class="todo-list" id="todo-list"></div>
       </div>
@@ -92,7 +91,7 @@
     </div>
 
     <!-- COLOUR SECTION -->
-    <div id="colour-section" style="display:none">
+    <div id="colour-section" style="display: none">
       <div class="coming-soon">
         <div class="coming-soon-icon">🎨</div>
         <p class="coming-soon-title">Mandala colouring</p>
@@ -101,32 +100,36 @@
     </div>
 
     <!-- HISTORY SECTION -->
-    <div id="history-section" style="display:none">
-       <!-- Streak -->
-        <div class="streak-box">
-            <div class="streak-left">
-            <span class="streak-flame">🔥</span>
-            <span class="streak-count" id="streak-count">0</span>
-            </div>
-            <div class="streak-right">
-            <p class="streak-label">day streak</p>
-            <p class="streak-sub">keep it going!</p>
-            </div>
-        </div>
+    <div id="history-section" style="display: none">
 
-        <h3 class="history-title">Your entries</h3>
-        <div id="entries-list"></div>
+      <!-- Streak -->
+      <div class="streak-box">
+        <div class="streak-left">
+          <span class="streak-flame">🔥</span>
+          <span class="streak-count" id="streak-count">0</span>
+        </div>
+        <div class="streak-right">
+          <p class="streak-label">day streak</p>
+          <p class="streak-sub">keep it going!</p>
+        </div>
+      </div>
+
+      <h3 class="history-title">Your entries</h3>
+      <div id="entries-list"></div>
+
     </div>
 
     <!-- Bottom Nav -->
     <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchMode('write', 0)">🏠</div>
-        <div class="nav-item" onclick="switchMode('colour', 1)">🎨</div>
-        <div class="nav-item" onclick="switchMode('history', 2)">🔥</div>
-        <div class="nav-item" onclick="switchMode('profile', 3)">👤</div>
-      </nav>
+      <div class="nav-item active" onclick="switchMode('write', 0)">🏠</div>
+      <div class="nav-item" onclick="switchMode('colour', 1)">🎨</div>
+      <div class="nav-item" onclick="switchMode('history', 2)">🔥</div>
+      <div class="nav-item" onclick="switchMode('profile', 3)">👤</div>
+    </nav>
+
     <!-- Toast notification -->
     <div class="toast" id="toast"></div>
+
   </div>
   <script src="app.js"></script>
 </body>

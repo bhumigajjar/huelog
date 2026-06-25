@@ -23,84 +23,96 @@
       <button class="mode-btn">History</button>
     </div>
 
-    <!-- Mood Row -->
-    <div class="mood-row">
-      <div class="mood-item">
-        <div class="mood-circle">😴</div>
-        <span>tired</span>
+    <!-- WRITE SECTION -->
+    <div id="write-section">
+
+      <!-- Mood Row -->
+      <div class="mood-row">
+        <div class="mood-item">
+          <div class="mood-circle">😴</div>
+          <span>tired</span>
+        </div>
+        <div class="mood-item">
+          <div class="mood-circle">😐</div>
+          <span>okay</span>
+        </div>
+        <div class="mood-item">
+          <div class="mood-circle">😊</div>
+          <span>good</span>
+        </div>
+        <div class="mood-item">
+          <div class="mood-circle">🤩</div>
+          <span>great</span>
+        </div>
+        <div class="mood-item">
+          <div class="mood-circle">😔</div>
+          <span>low</span>
+        </div>
       </div>
-      <div class="mood-item">
-        <div class="mood-circle">😐</div>
-        <span>okay</span>
+
+      <!-- Prompt Box -->
+      <div class="prompt-box">
+        <span class="prompt-label">TODAY'S NUDGE</span>
+        <p class="prompt-text" id="prompt"></p>
       </div>
-      <div class="mood-item">
-        <div class="mood-circle">😊</div>
-        <span>good</span>
+
+      <!-- Write Area -->
+      <textarea class="write-area" placeholder="Start writing here..."></textarea>
+
+      <!-- Todo List -->
+      <div class="todo-section">
+        <div class="todo-header">
+          <span class="todo-label">TODAY'S TODOS</span>
+          <span class="todo-count" id="todo-count">0/0</span>
+        </div>
+        <div class="todo-input-row">
+          <input type="text" class="todo-input" id="todo-input" placeholder="Add a todo and press Enter..."/>
+          <button class="todo-add-btn" onclick="addTodoFromInput()">+</button>
+        </div>
+        <div class="todo-list" id="todo-list"></div>
       </div>
-      <div class="mood-item">
-        <div class="mood-circle">🤩</div>
-        <span>great</span>
+
+      <!-- Save Button -->
+      <button class="save-btn">Save today's entry</button>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>or colour instead</span>
       </div>
-      <div class="mood-item">
-        <div class="mood-circle">😔</div>
-        <span>low</span>
+
+      <!-- Mandala Shortcut -->
+      <div class="mandala-card" onclick="switchToColour()">
+        <div class="mandala-icon">🎨</div>
+        <div>
+          <p class="mandala-title">Colour a mandala</p>
+          <p class="mandala-sub">When words aren't enough</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLOUR SECTION -->
+    <div id="colour-section" style="display:none">
+      <div class="coming-soon">
+        <div class="coming-soon-icon">🎨</div>
+        <p class="coming-soon-title">Mandala colouring</p>
+        <p class="coming-soon-sub">Coming next — tap Write to go back</p>
       </div>
     </div>
 
-    <!-- Prompt Box -->
-    <div class="prompt-box">
-      <span class="prompt-label">TODAY'S NUDGE</span>
-      <p class="prompt-text" id="prompt"></p>
-    </div>
-
-    <!-- Write Area -->
-    <textarea class="write-area" placeholder="Start writing here..."></textarea>
-    <!-- Todo List -->
-<div class="todo-section">
-    <div class="todo-header">
-      <span class="todo-label">TODAY'S TODOS</span>
-      <span class="todo-count" id="todo-count">0/0</span>
-    </div>
-    <div class="todo-input-row">
-      <input 
-        type="text" 
-        class="todo-input" 
-        id="todo-input" 
-        placeholder="Add a todo and press Enter..."
-      />
-    </div>
-    <div class="todo-list" id="todo-list"></div>
-  </div>
-    <!-- Save Button -->
-    <button class="save-btn">Save today's entry</button>
-
-    <!-- Divider -->
-    <div class="divider">
-      <span>or colour instead</span>
-    </div>
-
-    <!-- Mandala Shortcut -->
-    <div class="mandala-card">
-      <div class="mandala-icon">🎨</div>
-      <div>
-        <p class="mandala-title">Colour a mandala</p>
-        <p class="mandala-sub">When words aren't enough</p>
-      </div>
-    </div>
-
-    <!-- History Preview -->
-    <div class="history-section">
-    <h3 class="history-title">Recent entries</h3>
-    <div id="entries-list"></div>
+    <!-- HISTORY SECTION -->
+    <div id="history-section" style="display:none">
+      <h3 class="history-title">Your entries</h3>
+      <div id="entries-list"></div>
     </div>
 
     <!-- Bottom Nav -->
     <nav class="bottom-nav">
-      <div class="nav-item active">🏠</div>
-      <div class="nav-item">🎨</div>
-      <div class="nav-item">🔥</div>
-      <div class="nav-item">👤</div>
-    </nav>
+        <div class="nav-item active" onclick="switchMode('write', 0)">🏠</div>
+        <div class="nav-item" onclick="switchMode('colour', 1)">🎨</div>
+        <div class="nav-item" onclick="switchMode('history', 2)">🔥</div>
+        <div class="nav-item" onclick="switchMode('profile', 3)">👤</div>
+      </nav>
 
   </div>
   <script src="app.js"></script>

@@ -221,7 +221,46 @@ function toggleSavedTodo(entryId, todoIndex) {
     localStorage.setItem('huelog-entries', JSON.stringify(entries));
     editEntry(entryId);
 }
+// Mode toggle
+// All sections
+var writeSection = document.getElementById('write-section');
+var colourSection = document.getElementById('colour-section');
+var historySection = document.getElementById('history-section');
 
+// Nav items
+var navItems = document.querySelectorAll('.nav-item');
+var modeBtns = document.querySelectorAll('.mode-btn');
+
+function switchMode(mode, navIndex) {
+  // Update bottom nav
+  navItems.forEach(function(n) { n.classList.remove('active'); });
+  navItems[navIndex].classList.add('active');
+
+  // Update mode toggle buttons
+  modeBtns.forEach(function(b) { b.classList.remove('active'); });
+  if (navIndex < 3) modeBtns[navIndex].classList.add('active');
+
+  // Show correct section
+  writeSection.style.display = mode === 'write' ? 'block' : 'none';
+  colourSection.style.display = mode === 'colour' ? 'block' : 'none';
+  historySection.style.display = mode === 'history' ? 'block' : 'none';
+
+  // Load entries when switching to history
+  if (mode === 'history') loadEntries();
+}
+
+// Mode toggle buttons
+modeBtns.forEach(function(btn, index) {
+  btn.addEventListener('click', function() {
+    var mode = btn.textContent.trim().toLowerCase();
+    switchMode(mode, index);
+  });
+});
+
+// Mandala shortcut card
+function switchToColour() {
+  switchMode('colour', 1);
+}
 // ── Init ──────────────────────────────────────────────
 setGreeting();
 setDate();

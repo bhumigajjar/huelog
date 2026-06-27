@@ -1,26 +1,26 @@
 // ── Global state ──────────────────────────────────────
 let todos = [];
+let mandalaLoaded = false;
 
 // ── DOM references ────────────────────────────────────
-const saveBtn       = document.querySelector('.save-btn');
-const writeArea     = document.querySelector('.write-area');
-const moodCircles   = document.querySelectorAll('.mood-circle');
-const navItems      = document.querySelectorAll('.nav-item');
-const modeBtns      = document.querySelectorAll('.mode-btn');
-const writeSection  = document.getElementById('write-section');
-const colourSection = document.getElementById('colour-section');
-const historySection= document.getElementById('history-section');
-const todoInput     = document.getElementById('todo-input');
+const saveBtn        = document.querySelector('.save-btn');
+const writeArea      = document.querySelector('.write-area');
+const moodCircles    = document.querySelectorAll('.mood-circle');
+const navItems       = document.querySelectorAll('.nav-item');
+const modeBtns       = document.querySelectorAll('.mode-btn');
+const writeSection   = document.getElementById('write-section');
+const colourSection  = document.getElementById('colour-section');
+const historySection = document.getElementById('history-section');
+const todoInput      = document.getElementById('todo-input');
+const colourPalette  = document.getElementById('colour-palette');
+const undoBtn        = document.getElementById('undo-btn');
+const resetBtn       = document.getElementById('reset-btn');
+const mandalaSaveBtn = document.getElementById('mandala-save-btn');
 
 // ── Helpers ───────────────────────────────────────────
-const getEntries = () =>
-  JSON.parse(localStorage.getItem('huelog-entries') || '[]');
-
-const saveEntries = (entries) =>
-  localStorage.setItem('huelog-entries', JSON.stringify(entries));
-
-const getTodayStr = () =>
-  new Date().toISOString().split('T')[0];
+const getEntries  = () => JSON.parse(localStorage.getItem('huelog-entries') || '[]');
+const saveEntries = (entries) => localStorage.setItem('huelog-entries', JSON.stringify(entries));
+const getTodayStr = () => new Date().toISOString().split('T')[0];
 
 // ── Toast ─────────────────────────────────────────────
 function showToast(message) {
@@ -44,8 +44,7 @@ function setGreeting() {
 // ── Date ──────────────────────────────────────────────
 function setDate() {
   const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-  document.getElementById('date').textContent =
-    new Date().toLocaleDateString('en-IN', options);
+  document.getElementById('date').textContent = new Date().toLocaleDateString('en-IN', options);
 }
 
 // ── Prompt ────────────────────────────────────────────
@@ -67,9 +66,7 @@ function renderTodos() {
 
   const done = todos.filter(t => t.done).length;
   count.textContent = `${done}/${todos.length}`;
-  count.style.color = (done === todos.length && todos.length > 0)
-    ? '#1D9E75'
-    : '#7F77DD';
+  count.style.color = (done === todos.length && todos.length > 0) ? '#1D9E75' : '#7F77DD';
 
   if (todos.length === 0) {
     list.innerHTML = '';
@@ -78,8 +75,7 @@ function renderTodos() {
 
   list.innerHTML = todos.map(todo => `
     <div class="todo-item">
-      <div class="todo-checkbox ${todo.done ? 'checked' : ''}"
-           onclick="toggleTodo('${todo.id}')">
+      <div class="todo-checkbox ${todo.done ? 'checked' : ''}" onclick="toggleTodo('${todo.id}')">
         ${todo.done ? '✓' : ''}
       </div>
       <span class="todo-text ${todo.done ? 'done' : ''}">${todo.text}</span>
@@ -131,37 +127,32 @@ function loadEntries() {
          </div>`
       : '';
 
-      const mandalaHTML = entry.mandala
+    const mandalaHTML = entry.mandala
       ? `<div class="entry-mandala">
           <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
             <circle cx="200" cy="200" r="190" fill="#FDFCFA" stroke="#E8E4DC" stroke-width="2"/>
             ${[0,45,90,135,180,225,270,315].map((r,i) => `
               <path d="M200,28 C216,70 216,118 200,138 C184,118 184,70 200,28Z"
-                fill="${entry.mandala['r5-'+i] || '#F7F3EE'}"
-                stroke="#2C2A26" stroke-width="2"
+                fill="${entry.mandala['r5-'+i] || '#F7F3EE'}" stroke="#2C2A26" stroke-width="2"
                 transform="rotate(${r} 200 200)"/>
             `).join('')}
             ${[22.5,67.5,112.5,157.5,202.5,247.5,292.5,337.5].map((r,i) => `
               <circle cx="200" cy="50" r="9"
-                fill="${entry.mandala['r4-'+i] || '#F7F3EE'}"
-                stroke="#2C2A26" stroke-width="2"
+                fill="${entry.mandala['r4-'+i] || '#F7F3EE'}" stroke="#2C2A26" stroke-width="2"
                 transform="rotate(${r} 200 200)"/>
             `).join('')}
             ${[0,45,90,135,180,225,270,315].map((r,i) => `
               <path d="M200,142 C212,158 212,178 200,188 C188,178 188,158 200,142Z"
-                fill="${entry.mandala['r3-'+i] || '#F7F3EE'}"
-                stroke="#2C2A26" stroke-width="2"
+                fill="${entry.mandala['r3-'+i] || '#F7F3EE'}" stroke="#2C2A26" stroke-width="2"
                 transform="rotate(${r} 200 200)"/>
             `).join('')}
             ${[0,45,90,135,180,225,270,315].map((r,i) => `
               <path d="M200,188 L208,200 L200,212 L192,200Z"
-                fill="${entry.mandala['r2-'+i] || '#F7F3EE'}"
-                stroke="#2C2A26" stroke-width="2"
+                fill="${entry.mandala['r2-'+i] || '#F7F3EE'}" stroke="#2C2A26" stroke-width="2"
                 transform="rotate(${r} 200 200)"/>
             `).join('')}
             <circle cx="200" cy="200" r="20"
-              fill="${entry.mandala['centre'] || '#F7F3EE'}"
-              stroke="#2C2A26" stroke-width="2"/>
+              fill="${entry.mandala['centre'] || '#F7F3EE'}" stroke="#2C2A26" stroke-width="2"/>
           </svg>
         </div>`
       : '';
@@ -176,7 +167,7 @@ function loadEntries() {
           ${mandalaHTML}
         </div>
         <div class="entry-actions">
-          <button class="edit-btn"   onclick="editEntry(${entry.id})">✏️</button>
+          <button class="edit-btn" onclick="editEntry(${entry.id})">✏️</button>
           <button class="delete-btn" onclick="deleteEntry(${entry.id})">🗑️</button>
         </div>
       </div>
@@ -200,8 +191,7 @@ function editEntry(id) {
     ? `<div class="entry-todos edit-todos">
         ${entry.todos.map((t, i) => `
           <div class="entry-todo-item">
-            <div class="todo-checkbox ${t.done ? 'checked' : ''}"
-                 onclick="toggleSavedTodo(${id}, ${i})">
+            <div class="todo-checkbox ${t.done ? 'checked' : ''}" onclick="toggleSavedTodo(${id}, ${i})">
               ${t.done ? '✓' : ''}
             </div>
             <span class="${t.done ? 'entry-todo-done' : ''}">${t.text}</span>
@@ -214,7 +204,7 @@ function editEntry(id) {
     <textarea class="edit-area" id="edit-${id}">${entry.text}</textarea>
     ${todosEditHTML}
     <div class="edit-actions">
-      <button class="save-edit-btn"   onclick="saveEdit(${id})">Save</button>
+      <button class="save-edit-btn" onclick="saveEdit(${id})">Save</button>
       <button class="cancel-edit-btn" onclick="loadEntries()">Cancel</button>
     </div>
   `;
@@ -238,8 +228,7 @@ function toggleSavedTodo(entryId, todoIndex) {
   const entries    = getEntries();
   const entryIndex = entries.findIndex(e => e.id === entryId);
   if (entryIndex === -1) return;
-  entries[entryIndex].todos[todoIndex].done =
-    !entries[entryIndex].todos[todoIndex].done;
+  entries[entryIndex].todos[todoIndex].done = !entries[entryIndex].todos[todoIndex].done;
   saveEntries(entries);
   editEntry(entryId);
 }
@@ -284,8 +273,8 @@ function saveEntry() {
   renderTodos();
   loadEntries();
 
-  saveBtn.textContent        = '✅ Saved!';
-  saveBtn.style.background   = '#1D9E75';
+  saveBtn.textContent      = '✅ Saved!';
+  saveBtn.style.background = '#1D9E75';
   setTimeout(() => {
     saveBtn.textContent      = 'Update today\'s entry';
     saveBtn.style.background = '#7F77DD';
@@ -315,8 +304,8 @@ function calculateStreak() {
     .sort()
     .reverse();
 
-  let streak    = 0;
-  const today   = new Date();
+  let streak      = 0;
+  const today     = new Date();
 
   for (let i = 0; i < uniqueDates.length; i++) {
     const expected    = new Date(today);
@@ -342,12 +331,14 @@ const mandalaState = {
 };
 
 async function loadMandala() {
+  if (mandalaLoaded) return;
   try {
     const response  = await fetch('mandala.svg');
     const svgText   = await response.text();
     const container = document.getElementById('mandala-container');
     if (!container) return;
     container.innerHTML = svgText;
+    mandalaLoaded = true;
     initMandala();
   } catch (error) {
     console.error('Could not load mandala:', error);
@@ -358,18 +349,14 @@ function initMandala() {
   const svg = document.getElementById('mandala-svg');
   if (!svg) return;
 
-  // Restore saved state
   loadMandalaState();
 
-  // Event delegation — one listener for all sections
   svg.addEventListener('click', e => {
     const section = e.target.closest('.m-section');
     if (!section) return;
 
-    const id        = section.dataset.id;
-    const prevColour= mandalaState.sections.get(id) || '#F7F3EE';
-
-    // Push to history for undo
+    const id         = section.dataset.id;
+    const prevColour = mandalaState.sections.get(id) || '#F7F3EE';
     mandalaState.history.push({ id, prevColour });
 
     const newColour = mandalaState.selectedColour === 'eraser'
@@ -410,9 +397,7 @@ function switchMode(mode, navIndex) {
     showStreak();
   }
 
-  if (mode === 'colour') {
-    loadMandala();
-  }
+  if (mode === 'colour') loadMandala();
 }
 
 function switchToColour() {
@@ -445,8 +430,6 @@ if (todoInput) {
 
 saveBtn.addEventListener('click', saveEntry);
 
-// Colour palette
-const colourPalette = document.getElementById('colour-palette');
 if (colourPalette) {
   colourPalette.addEventListener('click', e => {
     const dot = e.target.closest('.colour-dot');
@@ -457,8 +440,6 @@ if (colourPalette) {
   });
 }
 
-// Undo
-const undoBtn = document.getElementById('undo-btn');
 if (undoBtn) {
   undoBtn.addEventListener('click', () => {
     if (mandalaState.history.length === 0) return;
@@ -469,20 +450,14 @@ if (undoBtn) {
   });
 }
 
-// Reset
-const resetBtn = document.getElementById('reset-btn');
 if (resetBtn) {
   resetBtn.addEventListener('click', () => {
     mandalaState.sections.clear();
     mandalaState.history = [];
-    document.querySelectorAll('.m-section').forEach(s => {
-      s.setAttribute('fill', '#F7F3EE');
-    });
+    document.querySelectorAll('.m-section').forEach(s => s.setAttribute('fill', '#F7F3EE'));
   });
 }
 
-// Save mandala as entry
-const mandalaSaveBtn = document.getElementById('mandala-save-btn');
 if (mandalaSaveBtn) {
   mandalaSaveBtn.addEventListener('click', () => {
     if (mandalaState.sections.size === 0) {
@@ -490,10 +465,10 @@ if (mandalaSaveBtn) {
       return;
     }
 
-    const entries    = getEntries();
-    const todayStr   = getTodayStr();
-    const todayIndex = entries.findIndex(e => e.date.split('T')[0] === todayStr);
-    const mandalaData= Object.fromEntries(mandalaState.sections);
+    const entries     = getEntries();
+    const todayStr    = getTodayStr();
+    const todayIndex  = entries.findIndex(e => e.date.split('T')[0] === todayStr);
+    const mandalaData = Object.fromEntries(mandalaState.sections);
 
     if (todayIndex !== -1) {
       entries[todayIndex].mandala   = mandalaData;
@@ -518,11 +493,19 @@ if (mandalaSaveBtn) {
   });
 }
 
+// ── PWA Service Worker ────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(() => console.log('HueLog SW registered ✅'))
+      .catch(err => console.error('SW failed:', err));
+  });
+}
+
 // ── Init ──────────────────────────────────────────────
 setGreeting();
 setDate();
 setPrompt();
 loadEntries();
 renderTodos();
-showStreak();
 checkTodayEntry();

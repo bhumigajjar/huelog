@@ -26,40 +26,21 @@
     <!-- WRITE SECTION -->
     <div id="write-section">
 
-      <!-- Mood Row -->
       <div class="mood-row">
-        <div class="mood-item">
-          <div class="mood-circle">😴</div>
-          <span>tired</span>
-        </div>
-        <div class="mood-item">
-          <div class="mood-circle">😐</div>
-          <span>okay</span>
-        </div>
-        <div class="mood-item">
-          <div class="mood-circle">😊</div>
-          <span>good</span>
-        </div>
-        <div class="mood-item">
-          <div class="mood-circle">🤩</div>
-          <span>great</span>
-        </div>
-        <div class="mood-item">
-          <div class="mood-circle">😔</div>
-          <span>low</span>
-        </div>
+        <div class="mood-item"><div class="mood-circle">😴</div><span>tired</span></div>
+        <div class="mood-item"><div class="mood-circle">😐</div><span>okay</span></div>
+        <div class="mood-item"><div class="mood-circle">😊</div><span>good</span></div>
+        <div class="mood-item"><div class="mood-circle">🤩</div><span>great</span></div>
+        <div class="mood-item"><div class="mood-circle">😔</div><span>low</span></div>
       </div>
 
-      <!-- Prompt Box -->
       <div class="prompt-box">
         <span class="prompt-label">TODAY'S NUDGE</span>
         <p class="prompt-text" id="prompt"></p>
       </div>
 
-      <!-- Write Area -->
       <textarea class="write-area" placeholder="Start writing here..."></textarea>
 
-      <!-- Todo List -->
       <div class="todo-section">
         <div class="todo-header">
           <span class="todo-label">TODAY'S TODOS</span>
@@ -71,15 +52,10 @@
         <div class="todo-list" id="todo-list"></div>
       </div>
 
-      <!-- Save Button -->
       <button class="save-btn">Save today's entry</button>
 
-      <!-- Divider -->
-      <div class="divider">
-        <span>or colour instead</span>
-      </div>
+      <div class="divider"><span>or colour instead</span></div>
 
-      <!-- Mandala Shortcut -->
       <div class="mandala-card" onclick="switchToColour()">
         <div class="mandala-icon">🎨</div>
         <div>
@@ -91,18 +67,41 @@
     </div>
 
     <!-- COLOUR SECTION -->
-    <div id="colour-section" style="display: none">
-      <div class="coming-soon">
-        <div class="coming-soon-icon">🎨</div>
-        <p class="coming-soon-title">Mandala colouring</p>
-        <p class="coming-soon-sub">Coming next — tap Write to go back</p>
+    <div id="colour-section" class="hidden">
+
+      <div class="mandala-header">
+        <p class="mandala-mode-title">Colour your mood</p>
+        <p class="mandala-mode-sub">Pick a colour and tap any section</p>
       </div>
+
+      <div class="colour-palette" id="colour-palette">
+        <div class="colour-dot active" data-colour="#7F77DD" style="background:#7F77DD"></div>
+        <div class="colour-dot" data-colour="#D4537E" style="background:#D4537E"></div>
+        <div class="colour-dot" data-colour="#1D9E75" style="background:#1D9E75"></div>
+        <div class="colour-dot" data-colour="#EF9F27" style="background:#EF9F27"></div>
+        <div class="colour-dot" data-colour="#378ADD" style="background:#378ADD"></div>
+        <div class="colour-dot" data-colour="#D85A30" style="background:#D85A30"></div>
+        <div class="colour-dot" data-colour="#AFA9EC" style="background:#AFA9EC"></div>
+        <div class="colour-dot" data-colour="#5DCAA5" style="background:#5DCAA5"></div>
+        <div class="colour-dot" data-colour="#FAC775" style="background:#FAC775"></div>
+        <div class="colour-dot" data-colour="#ED93B1" style="background:#ED93B1"></div>
+        <div class="colour-dot" data-colour="#F7F3EE" style="background:#F7F3EE;border:1px solid #E8E4DC"></div>
+        <div class="colour-dot eraser" data-colour="eraser" style="background:#FDFCFA;border:1px solid #E8E4DC">✕</div>
+      </div>
+
+      <div class="mandala-canvas-wrap" id="mandala-container"></div>
+
+      <div class="mandala-controls">
+        <button class="mandala-ctrl-btn" id="undo-btn">↩ Undo</button>
+        <button class="mandala-ctrl-btn" id="reset-btn">↺ Reset</button>
+        <button class="mandala-save-btn" id="mandala-save-btn">Save as entry 🎨</button>
+      </div>
+
     </div>
 
     <!-- HISTORY SECTION -->
-    <div id="history-section" style="display: none">
+    <div id="history-section" class="hidden">
 
-      <!-- Streak -->
       <div class="streak-box">
         <div class="streak-left">
           <span class="streak-flame">🔥</span>
@@ -127,7 +126,6 @@
       <div class="nav-item" onclick="switchMode('profile', 3)">👤</div>
     </nav>
 
-    <!-- Toast notification -->
     <div class="toast" id="toast"></div>
 
   </div>

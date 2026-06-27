@@ -1,0 +1,101 @@
+<svg id="mandala-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Background -->
+  <circle cx="200" cy="200" r="190" fill="#FDFCFA" stroke="#2C2A26" stroke-width="1.5"/>
+
+  <!-- Decorative guide rings -->
+  <circle cx="200" cy="200" r="160" fill="none" stroke="#E8E4DC" stroke-width="0.8"/>
+  <circle cx="200" cy="200" r="120" fill="none" stroke="#E8E4DC" stroke-width="0.8"/>
+  <circle cx="200" cy="200" r="80"  fill="none" stroke="#E8E4DC" stroke-width="0.8"/>
+  <circle cx="200" cy="200" r="40"  fill="none" stroke="#E8E4DC" stroke-width="0.8"/>
+
+  <!-- Ring 5 — outer large teardrops (8 petals) -->
+  <g id="ring-5">
+    <path class="m-section" data-id="r5-0" d="M200,28 C216,70 216,118 200,138 C184,118 184,70 200,28Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(0 200 200)"/>
+    <path class="m-section" data-id="r5-1" d="M200,28 C216,70 216,118 200,138 C184,118 184,70 200,28Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(45 200 200)"/>
+    <path class="m-section" data-id="r5-2" d="M200,28 C216,70 216,118 200,138 C184,118 184,70 200,28Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(90 200 200)"/>
+    <path class="m-section" data-id="r5-3" d="M200,28 C216,70 216,118 200,138 C184,118 184,70 200,28Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(135 200 200)"/>
+    <path class="m-section" data-id="r5-4" d="M200,28 C216,70 216,118 200,138 C184,118 184,70 200,28Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(180 200 200)"/>
+    <path class="m-section" data-id="r5-5" d="M200,28 C216,70 216,118 200,138 C184,118 184,70 200,28Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(225 200 200)"/>
+    <path class="m-section" data-id="r5-6" d="M200,28 C216,70 216,118 200,138 C184,118 184,70 200,28Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(270 200 200)"/>
+    <path class="m-section" data-id="r5-7" d="M200,28 C216,70 216,118 200,138 C184,118 184,70 200,28Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(315 200 200)"/>
+  </g>
+
+  <!-- Ring 4 — between outer petals small round dots (8) -->
+  <g id="ring-4">
+    <circle class="m-section" data-id="r4-0" cx="200" cy="50" r="9"
+            fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(22.5 200 200)"/>
+    <circle class="m-section" data-id="r4-1" cx="200" cy="50" r="9"
+            fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(67.5 200 200)"/>
+    <circle class="m-section" data-id="r4-2" cx="200" cy="50" r="9"
+            fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(112.5 200 200)"/>
+    <circle class="m-section" data-id="r4-3" cx="200" cy="50" r="9"
+            fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(157.5 200 200)"/>
+    <circle class="m-section" data-id="r4-4" cx="200" cy="50" r="9"
+            fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(202.5 200 200)"/>
+    <circle class="m-section" data-id="r4-5" cx="200" cy="50" r="9"
+            fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(247.5 200 200)"/>
+    <circle class="m-section" data-id="r4-6" cx="200" cy="50" r="9"
+            fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(292.5 200 200)"/>
+    <circle class="m-section" data-id="r4-7" cx="200" cy="50" r="9"
+            fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(337.5 200 200)"/>
+  </g>
+
+  <!-- Ring 3 — medium leaf petals (8) -->
+  <g id="ring-3">
+    <path class="m-section" data-id="r3-0" d="M200,142 C212,158 212,178 200,188 C188,178 188,158 200,142Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(0 200 200)"/>
+    <path class="m-section" data-id="r3-1" d="M200,142 C212,158 212,178 200,188 C188,178 188,158 200,142Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(45 200 200)"/>
+    <path class="m-section" data-id="r3-2" d="M200,142 C212,158 212,178 200,188 C188,178 188,158 200,142Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(90 200 200)"/>
+    <path class="m-section" data-id="r3-3" d="M200,142 C212,158 212,178 200,188 C188,178 188,158 200,142Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(135 200 200)"/>
+    <path class="m-section" data-id="r3-4" d="M200,142 C212,158 212,178 200,188 C188,178 188,158 200,142Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(180 200 200)"/>
+    <path class="m-section" data-id="r3-5" d="M200,142 C212,158 212,178 200,188 C188,178 188,158 200,142Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(225 200 200)"/>
+    <path class="m-section" data-id="r3-6" d="M200,142 C212,158 212,178 200,188 C188,178 188,158 200,142Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(270 200 200)"/>
+    <path class="m-section" data-id="r3-7" d="M200,142 C212,158 212,178 200,188 C188,178 188,158 200,142Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(315 200 200)"/>
+  </g>
+
+  <!-- Ring 2 — small diamonds (8) -->
+  <g id="ring-2">
+    <path class="m-section" data-id="r2-0" d="M200,188 L208,200 L200,212 L192,200Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(0 200 200)"/>
+    <path class="m-section" data-id="r2-1" d="M200,188 L208,200 L200,212 L192,200Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(45 200 200)"/>
+    <path class="m-section" data-id="r2-2" d="M200,188 L208,200 L200,212 L192,200Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(90 200 200)"/>
+    <path class="m-section" data-id="r2-3" d="M200,188 L208,200 L200,212 L192,200Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(135 200 200)"/>
+    <path class="m-section" data-id="r2-4" d="M200,188 L208,200 L200,212 L192,200Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(180 200 200)"/>
+    <path class="m-section" data-id="r2-5" d="M200,188 L208,200 L200,212 L192,200Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(225 200 200)"/>
+    <path class="m-section" data-id="r2-6" d="M200,188 L208,200 L200,212 L192,200Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(270 200 200)"/>
+    <path class="m-section" data-id="r2-7" d="M200,188 L208,200 L200,212 L192,200Z"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5" transform="rotate(315 200 200)"/>
+  </g>
+
+  <!-- Centre circle -->
+  <circle class="m-section" data-id="centre"
+          cx="200" cy="200" r="20"
+          fill="#F7F3EE" stroke="#2C2A26" stroke-width="1.5"/>
+
+  <!-- Outer decorative dashed ring -->
+  <circle cx="200" cy="200" r="175" fill="none" stroke="#2C2A26"
+          stroke-width="0.8" stroke-dasharray="3 5"/>
+
+</svg>
